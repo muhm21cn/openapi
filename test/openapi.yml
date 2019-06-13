@@ -1,0 +1,127 @@
+---
+openapi: 3.0.2
+info:
+  title: Role
+  description: 角色
+  version: 1.0.0
+paths:
+  /roles:
+    summary: Path used to manage the list of Roles.
+    description: The REST endpoint/path used to list and create zero or more `Role`
+      entities.  This path contains a `GET` and `POST` operation to perform the list
+      and create tasks, respectively.
+    get:
+      summary: List All Roles
+      description: Gets a list of all `Role` entities.
+      operationId: getRoles
+      parameters:
+      - name: size
+        in: query
+        description: 每页个数
+        schema:
+          type: integer
+      - name: page
+        in: query
+        description: 页数
+        required: false
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Successful response - returns an array of `Role` entities.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Role'
+    post:
+      summary: Create a Role
+      description: Creates a new instance of a `Role`.
+      operationId: createRole
+      requestBody:
+        description: A new `Role` to be created.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Role'
+        required: true
+      responses:
+        201:
+          description: Successful response.
+    servers:
+    - url: http://localhost:8080
+      description: 本地测试服务器
+  /roles/{roleId}:
+    summary: Path used to manage a single Role.
+    description: The REST endpoint/path used to get, update, and delete single instances
+      of an `Role`.  This path contains `GET`, `PUT`, and `DELETE` operations used
+      to perform the get, update, and delete tasks, respectively.
+    get:
+      summary: Get a Role
+      description: Gets the details of a single instance of a `Role`.
+      operationId: getRole
+      responses:
+        200:
+          description: Successful response - returns a single `Role`.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+    put:
+      summary: Update a Role
+      description: Updates an existing `Role`.
+      operationId: updateRole
+      requestBody:
+        description: Updated `Role` information.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Role'
+        required: true
+      responses:
+        202:
+          description: Successful response.
+    delete:
+      summary: 删除角色
+      description: Deletes an existing `Role`.
+      operationId: deleteRole
+      responses:
+        204:
+          description: Successful response.
+    servers:
+    - url: http://localhost:8080
+      description: 本地测试服务器
+    parameters:
+    - name: roleId
+      in: path
+      description: 角色ID
+      required: true
+      schema:
+        type: string
+components:
+  schemas:
+    Role:
+      title: Root Type for Role
+      description: 角色
+      type: object
+      properties:
+        id:
+          description: ID
+          type: string
+        roleCode:
+          description: 角色代码
+          type: string
+        roleName:
+          description: 角色名称
+          type: string
+        remark:
+          description: 备注
+          type: string
+      example: |-
+        {
+            "id": "12345",
+            "roleCode": "ADMIN",
+            "roleName": "管理员",
+            "remark": "备注"
+        }
